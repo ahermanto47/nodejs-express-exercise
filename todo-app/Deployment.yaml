@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: todo-app
+  labels:
+    app: todo-app
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+        - name: todo-app
+          image: localhost:5000/todo-app
+          env:
+            - name: APP_NAME
+              value: "todo-app"
+            - name: K8_NODE
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: K8_POD
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: K8_NS
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: K8_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: PORT
+              value: "4444"
+          ports:
+            - containerPort: 4444
+              name: todo-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: todo-app
+  selector:
+    app: todo-app
