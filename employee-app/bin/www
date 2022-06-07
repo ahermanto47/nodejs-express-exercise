@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('todo-app:server');
+var debug = require('debug')('employee-app:server');
 var http = require('http');
 
 /**
