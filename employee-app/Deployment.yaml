@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: employee-app
-          image: localhost:5000/employee-app:0.0.1
+          image: localhost:5000/employee-app:0.0.2
           env:
             - name: MONGO_USERNAME
               valueFrom:
