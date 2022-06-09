@@ -1,5 +1,7 @@
 # nodejs-express-exercise
 
+> Run a nodejs app using express library, openapi (with swagger-jsdoc), and mongodb in minikube
+
 ## Install express framework
 
 ```
