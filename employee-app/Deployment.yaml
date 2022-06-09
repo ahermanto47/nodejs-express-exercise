@@ -17,6 +17,19 @@ spec:
       containers:
         - name: employee-app
           image: localhost:5000/employee-app:0.0.1
+          env:
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-creds
+                  key: username 
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-creds
+                  key: password 
+            - name: ATLAS_URI
+              value: "mongodb://$MONGO_USERNAME:$MONGO_PASSWORD@mongo-nodeport-svc:32000"          
           ports:
             - containerPort: 3000
               name: employee-app
