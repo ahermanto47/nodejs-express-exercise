@@ -29,7 +29,7 @@ spec:
                   name: mongo-creds
                   key: password 
             - name: ATLAS_URI
-              value: "mongodb://$MONGO_USERNAME:$MONGO_PASSWORD@mongo-nodeport-svc:32000"          
+              value: "mongodb://$(MONGO_USERNAME):$(MONGO_PASSWORD)@mongo-nodeport-svc:27017"          
           ports:
             - containerPort: 3000
               name: employee-app
