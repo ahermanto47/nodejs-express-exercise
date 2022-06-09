@@ -30,6 +30,8 @@ npm start
 
 ## Deploy to minikube
 
+> After done coding, we deploy to a minikube instance
+
 ## On separate terminal start port forwarding for pushing image to minikube
 
 ```
