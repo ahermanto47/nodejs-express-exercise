@@ -80,4 +80,7 @@ curl -X DELETE $(minikube service employee-svc --url)/Employees/delete/3 | jq
 curl $(minikube service employee-svc --url)/Employees | jq
 ```
  
+## Or Test with the swagger ui
+
+<p align="center"><img src="images/AnimatedSwagger.gif" alt="Test Swagger UI Image"/></p>
 
