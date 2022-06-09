@@ -52,8 +52,28 @@ kubectl apply -f Deployment
 
 ## Test with curl
 
+## List all employees
+
 ```
 curl $(minikube service employee-svc --url)/Employees | jq
 ```
 
+## Add one employee, Robert
+```
+curl -X POST -H 'Content-type: application/json' -d '{"id": 3,"name": "Robert"}' $(minikube service employee-svc --url)/Employees | jq
+```
+## Verify
+```
+curl $(minikube service employee-svc --url)/Employees | jq
+```
+ 
+## Delete one employee, Robert
+```
+curl -X DELETE $(minikube service employee-svc --url)/Employees/delete/3 | jq
+```
+## Verify
+```
+curl $(minikube service employee-svc --url)/Employees | jq
+```
+ 
 
