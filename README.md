@@ -2,6 +2,12 @@
 
 > Run a nodejs app using express library, openapi (with swagger-jsdoc), and mongodb in minikube
 
+## Setup mongo in minikube
+
+```
+kubectl apply -f manifests/mongodb/mongodb.yaml
+```
+
 ## Install express framework
 
 ```
