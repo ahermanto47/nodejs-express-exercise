@@ -5,7 +5,7 @@
 ## Setup mongo in minikube
 
 ```
-kubectl apply -f manifests/mongodb/mongodb.yaml
+kubectl apply -f mongodb/mongodb.yaml
 ```
 
 ## Install express framework
