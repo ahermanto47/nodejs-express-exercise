@@ -34,6 +34,20 @@ npm install
 npm start
 ```
 
+## Note when running locally
+
+> During coding to run integration tests, we need to set the mongo url environment. On windows set the ATLAS_URI
+
+```
+set ATLAS_URI=mongodb://<username>:<password>@192.168.1.240:32000
+```
+
+> On linux export the ATLAS_URI
+
+```
+export ATLAS_URI=mongodb://<username>:<password>@192.168.1.240:32000
+```
+
 ## Deploy to minikube
 
 > After done coding, we deploy to a minikube instance
