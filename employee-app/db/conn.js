@@ -49,24 +49,11 @@ module.exports = {
 
   },
 
-  deleteEmployeeById: function(req, res) {
+  deleteEmployeeById: function(employeeId) {
 
-    const listingQuery = { id : parseInt(req.params.id) };
-
-    console.log(listingQuery);
-    
-    dbConnection
+    return dbConnection
       .collection('employee')
-      .deleteOne(listingQuery, function (err, result) {
-        if (err) {
-          res
-            .status(404)
-            .send(`Error deleting listing with id ${listingQuery.id}!`);
-        } else {
-          console.log(`Deleted employee count ${result.deletedCount}`);
-          res.status(204).send();
-        }
-      });
+      .deleteOne(employeeId);
 
     },
 };

@@ -47,7 +47,7 @@ describe("GET /Employees", () => {
             expect(response.body).toEqual(expect.arrayContaining(expectedBody));
         });
         
-        test('GET /Employees should responds with 400 code when dbo.listAllEmployees throws an error', async () => {
+        test('GET /Employees should responds with 400 code when there is an error', async () => {
             const expectedErrorText = "mock error";
             listAllEmployees.mockRejectedValue(new Error(expectedErrorText));
             const response = await request(app).get('/Employees');
@@ -82,12 +82,39 @@ describe("POST /Employees", () => {
             }
         });
 
-        test('POST /Employees should responds with 404 code when dbo.addOneEmployee throws an error', async () => {
+        test('POST /Employees should responds with 404 code when there is an error', async () => {
             const expectedErrorText = "mock error";
             addOneEmployee.mockRejectedValue(new Error(expectedErrorText));
             const response = await request(app).post('/Employees').send({
                 id: 1, name: "name1"
             });
+            expect(response.statusCode).toBe(404);
+            expect(response.error.text).toEqual(expectedErrorText);
+        });
+        
+    });
+});
+
+describe("DELETE /Employees/delete/:id", () => {
+
+    describe("Given api server up", () => {
+        
+        beforeEach(() => {
+            deleteEmployeeById.mockReset();
+        });
+
+        test('DELETE /Employees should responds with 204 code', async () => {
+            const employeeId = 1;
+            deleteEmployeeById.mockResolvedValue({ id: employeeId });
+            const response = await request(app).delete('/Employees/delete/'+employeeId);
+            expect(response.statusCode).toBe(204);
+        });
+
+        test('DELETE /Employees should responds with 404 code when there is an error', async () => {
+            const employeeId = 1;
+            const expectedErrorText = "mock error";
+            deleteEmployeeById.mockRejectedValue(new Error(expectedErrorText));
+            const response = await request(app).delete('/Employees/delete/'+employeeId);
             expect(response.statusCode).toBe(404);
             expect(response.error.text).toEqual(expectedErrorText);
         });

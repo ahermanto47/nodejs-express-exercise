@@ -20,7 +20,6 @@ module.exports = function(dbo) {
    routes.route('/Employees').get(async function (req, res) {
 
       const employees = dbo.listAllEmployees();
-
       // the returning object is a promise
       employees.then((resolve) => {
         res.json(resolve);
@@ -55,6 +54,7 @@ module.exports = function(dbo) {
    routes.route('/Employees').post(async function (req, res) {
 
     const employee = req.body;
+    // the returning object is a promise
     const result = dbo.addOneEmployee(employee);
     result.then((resolve) => {
       const resultEmployee = resolve.ops[0];
@@ -83,7 +83,14 @@ module.exports = function(dbo) {
    */
    routes.route('/Employees/delete/:id').delete((req, res) => {
 
-    dbo.deleteEmployeeById(req, res);
+    const employeeId = { id : parseInt(req.params.id) };
+    // the returning object is a promise
+    const result = dbo.deleteEmployeeById(employeeId);
+    result.then((resolve) => {
+      res.status(204).send();
+    }).catch((error) => {
+      res.status(404).send(error.message);
+    });
     
   });
 
