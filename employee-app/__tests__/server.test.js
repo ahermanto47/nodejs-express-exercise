@@ -25,7 +25,7 @@ const routes = makeRoutes({
 
 const app = makeApp(routes,apiPath);
 
-describe("Employees endpoint /Employees", () => {
+describe("GET /Employees", () => {
     
     describe("Given api server up", () => {
         
@@ -57,4 +57,40 @@ describe("Employees endpoint /Employees", () => {
         
     });
 
+});
+
+describe("POST /Employees", () => {
+
+    describe("Given api server up", () => {
+        
+        beforeEach(() => {
+            addOneEmployee.mockReset();
+        });
+
+        test('POST /Employees should responds with 201 code', async () => {
+            const bodyData = [
+                { id: 1, name: "name1" },
+                { id: 2, name: "name2" },
+                { id: 3, name: "name3" }
+            ];
+
+            for (const body of bodyData) {
+                addOneEmployee.mockResolvedValue({ ops: [{ id: body.id }] });
+                const response = await request(app).post('/Employees').send(body);
+                expect(response.statusCode).toBe(201);
+                expect(response.body.id).toBe(body.id);
+            }
+        });
+
+        test('POST /Employees should responds with 404 code when dbo.addOneEmployee throws an error', async () => {
+            const expectedErrorText = "mock error";
+            addOneEmployee.mockRejectedValue(new Error(expectedErrorText));
+            const response = await request(app).post('/Employees').send({
+                id: 1, name: "name1"
+            });
+            expect(response.statusCode).toBe(404);
+            expect(response.error.text).toEqual(expectedErrorText);
+        });
+        
+    });
 });

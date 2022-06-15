@@ -52,9 +52,16 @@ module.exports = function(dbo) {
    *         description: Created 
    *  
    */
-   routes.route('/Employees').post(function (req, res) {
+   routes.route('/Employees').post(async function (req, res) {
 
-    dbo.addOneEmployee(req, res);
+    const employee = req.body;
+    const result = dbo.addOneEmployee(employee);
+    result.then((resolve) => {
+      const resultEmployee = resolve.ops[0];
+      res.status(201).json(resultEmployee);
+    }).catch((error) => {
+      res.status(404).send(error.message);
+    });
 
   });
 

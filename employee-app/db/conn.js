@@ -36,27 +36,18 @@ module.exports = {
       
   },
 
-  addOneEmployee: function(req, res) {
+  addOneEmployee: function(employee) {
 
-    console.log(req.body);
-    
     const matchDocument = {
-      id: req.body.id,
-      name: req.body.name,
+      id: employee.id,
+      name: employee.name,
     };
 
-    dbConnection
+    return dbConnection
       .collection('employee')
-      .insertOne(matchDocument, function (err, result) {
-        if (err) {
-          res.status(400).send('Error inserting matches!');
-        } else {
-          console.log(`Added a new employee document with id ${result.insertedId}`);
-          res.status(204).send();
-        }
-      });
+      .insertOne(matchDocument);
 
-    },
+  },
 
   deleteEmployeeById: function(req, res) {
 
