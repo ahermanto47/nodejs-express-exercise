@@ -5,7 +5,7 @@ module.exports = function(dbo) {
   // recordRoutes is an instance of the express router.
   // We use it to define our routes.
   // The router will be added as a middleware and will take control of requests starting with path /Employees.
-  const recordRoutes = express.Router();
+  const routes = express.Router();
 
   /**
    * @openapi
@@ -17,9 +17,16 @@ module.exports = function(dbo) {
    *         description: Success 
    *  
    */
-  recordRoutes.route('/Employees').get(async function (req, res) {
+   routes.route('/Employees').get(async function (req, res) {
 
-    dbo.listAllEmployees(res);
+      const employees = dbo.listAllEmployees();
+
+      // the returning object is a promise
+      employees.then((resolve) => {
+        res.json(resolve);
+      }).catch((error) => {
+        res.status(400).send(error.message);
+      });  
 
   });
 
@@ -45,7 +52,7 @@ module.exports = function(dbo) {
    *         description: Created 
    *  
    */
-  recordRoutes.route('/Employees').post(function (req, res) {
+   routes.route('/Employees').post(function (req, res) {
 
     dbo.addOneEmployee(req, res);
 
@@ -67,13 +74,13 @@ module.exports = function(dbo) {
    *         description: Deleted 
    *  
    */
-  recordRoutes.route('/Employees/delete/:id').delete((req, res) => {
+   routes.route('/Employees/delete/:id').delete((req, res) => {
 
     dbo.deleteEmployeeById(req, res);
     
   });
 
 
-  return recordRoutes;
+  return routes;
 
 }
