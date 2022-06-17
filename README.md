@@ -34,6 +34,14 @@ npm install
 npm start
 ```
 
+## Test and coverage
+
+```
+npm test
+```
+
+> See coverage result in ./coverage/lcov-report/index.html
+
 ## Note when running locally
 
 > During coding to run integration tests, we need to set the mongo url environment. On windows set the ATLAS_URI

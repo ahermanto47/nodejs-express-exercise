@@ -2,11 +2,13 @@ const express = require('express');
 const logger = require('morgan');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUI = require('swagger-ui-express');
+const cors = require("cors");
 
 module.exports = function(routes, apiPath) {
 
 	const app = express();
 
+	app.use(cors());
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
 	app.use(logger('dev'));
