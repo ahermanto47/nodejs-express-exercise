@@ -107,7 +107,7 @@ npm start
 
 ## Test and coverage
 
-> I have managed to code some tests in this repo using Jest and Supertest frameworks. For example see __test__/server.test.js;
+> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by follow along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from __test__/server.test.js, where we test the GET /Employees operation;
 
 ```
 test('GET /Employees should responds with 200 code', async () => {
