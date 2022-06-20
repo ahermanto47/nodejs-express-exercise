@@ -1,6 +1,6 @@
 # nodejs-express-exercise
 
-> Run a nodejs app using express library, openapi (with swagger-jsdoc), and mongodb in minikube. This could be part of MERN stack (Mongo, Express, React, and Nodejs). In this setup, we use a library called swagger-jsdoc, which allows developers to expose an operation via @openapi annotation, for example see file routes/employee.js;
+> Run a nodejs app using express library, openapi (with **swagger-jsdoc**), and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). In this setup, **swagger-jsdoc** allows developers to expose an operation via **@openapi** annotation, for example see file routes/employee.js;
 
 ```
 
@@ -28,7 +28,7 @@
 
 ```
 
-> As shown above, the annotation represents one path object in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. So when user perform a get to http://localhost:5000/Employees, the system will call dbo.listAppEmployees() function, which fetch data from a mongo db database. See below code snippets from db/conn.js;
+> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. So when user perform a get to http://localhost:5000/Employees, the system will call **dbo.listAppEmployees()** function, which fetch data from a mongo db database. See below code snippets from db/conn.js;
 
 ```
   listAllEmployees: function() {
@@ -52,15 +52,15 @@ kubectl apply -f mongodb/mongodb.yaml
 
 ### Note when running locally
 
-> During coding, to run some integration tests, we need to set the mongo connection string which is set as ATLAS_URI environment variable. See db/conn.js;
+> During coding, to run some integration tests, we need to set the mongo connection string which is set as **ATLAS_URI** environment variable. See db/conn.js;
 
 ```
-const { MongoClient } = require('mongodb');
-const connectionString = process.env.ATLAS_URI;
-const client = new MongoClient(connectionString, {
+  const { MongoClient } = require('mongodb');
+  const connectionString = process.env.ATLAS_URI;
+  const client = new MongoClient(connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+  });
 ```
 
 > On windows set the ATLAS_URI
@@ -107,7 +107,7 @@ npm start
 
 ## Test and coverage
 
-> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by follow along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from __test__/server.test.js, where we test the GET /Employees operation;
+> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by following along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from __test__/server.test.js, where we test the GET /Employees operation;
 
 ```
 test('GET /Employees should responds with 200 code', async () => {
@@ -123,7 +123,7 @@ test('GET /Employees should responds with 200 code', async () => {
 npm test
 ```
 
-> And to see the tests coverage result, open ./coverage/lcov-report/index.html using a browser
+> And to see the tests coverage result, open **./coverage/lcov-report/index.html** using a browser
 
 ## Deploy to minikube
 
@@ -179,7 +179,7 @@ curl $(minikube service employee-svc --url)/Employees | jq
  
 ## Or Test with the swagger ui
 
-> Or you can test with the swagger ui by opening http://localhost:5000/api-docs in a browser and interact with it
+> Or you can test with the swagger ui by opening **http://localhost:5000/api-docs** in a browser and interact with it
 
 <p align="center"><img src="images/AnimatedSwagger.gif" alt="Test Swagger UI Image"/></p>
 
