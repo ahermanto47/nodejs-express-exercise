@@ -110,6 +110,9 @@ npm start
 > I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by following along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from __test__/server.test.js, where we test the GET /Employees operation;
 
 ```
+...
+const listAllEmployees = jest.fn();
+...
 test('GET /Employees should responds with 200 code', async () => {
     listAllEmployees.mockResolvedValue([]);
     const response = await request(app).get('/Employees');
@@ -117,7 +120,7 @@ test('GET /Employees should responds with 200 code', async () => {
 });
 ```
 
-> Here is how you can run all of the tests;
+> One thing to highlight from above is **listAllEmployees.mockResolvedValue([])**, where we mock our mongo db object in this test to return an empty array. The function is mocked using Jest with this code **listAllEmployees = jest.fn()**. See below to run all of the tests;
 
 ```
 npm test
