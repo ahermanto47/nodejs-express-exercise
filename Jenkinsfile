@@ -9,7 +9,7 @@ node('slaveNode1'){
         }
         */
         withCredentials([sshUserPrivateKey(credentialsId: 'github', keyFileVariable: 'PRIVATE_KEY')]) {
-            sh 'git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
+            sh 'GIT_SSH_COMMAND="ssh -i $PRIVATE_KEY" git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
         }
 
         stage('Build And Test') {
