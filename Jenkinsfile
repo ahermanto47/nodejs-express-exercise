@@ -8,7 +8,7 @@ node('slaveNode1'){
             stash excludes: 'target/**,lib/**', name: 'source'
         }
         */
-        withCredentials([sshUserPrivateKey(credentialsId: 'github', keyFileVariable: 'SSH_KEY')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'github', keyFileVariable: 'PRIVATE_KEY')]) {
             sh 'git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
         }
 
