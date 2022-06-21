@@ -6,21 +6,6 @@ node('slaveNode1'){
             git credentialsId: 'github', branch: "main", url: "git@github.com:ahermanto47/nodejs-express-exercise.git"
             stash excludes: 'target/**,lib/**', name: 'source'
         }
-        /*
-        withCredentials([sshUserPrivateKey(credentialsId: 'github', keyFileVariable: 'PRIVATE_KEY')]) {
-            sh 'mkdir -p .ssh && echo $PRIVATE_KEY > .ssh/id_ed25519'
-            //sh 'GIT_SSH_COMMAND="ssh -i $PRIVATE_KEY" git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
-            sh 'git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
-        }
-
-        sshagent(credentials: ['github']) {
-            sh '''
-                [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
-                ssh-keyscan -t rsa,dsa github.com >> ~/.ssh/known_hosts
-                git clone git@github.com:ahermanto47/nodejs-express-exercise.git
-            '''
-        }
-        */
 
         stage('Build And Test') {
             unstash 'source'
