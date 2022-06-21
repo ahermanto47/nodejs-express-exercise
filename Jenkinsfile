@@ -12,8 +12,7 @@ node('slaveNode1'){
             //sh 'GIT_SSH_COMMAND="ssh -i $PRIVATE_KEY" git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
             sh 'git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
         }
-        */
-        
+
         sshagent(credentials: ['github']) {
             sh '''
                 [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
@@ -21,6 +20,7 @@ node('slaveNode1'){
                 git clone git@github.com:ahermanto47/nodejs-express-exercise.git
             '''
         }
+        */
 
         stage('Build And Test') {
             unstash 'source'
