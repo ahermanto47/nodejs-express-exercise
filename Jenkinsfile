@@ -2,15 +2,17 @@ node('slaveNode1'){
     
     try {
 
+        /*
         stage('Download repo') {
             git credentialsId: 'github', branch: "main", url: "git@github.com:ahermanto47/nodejs-express-exercise.git"
             stash excludes: 'target/**,lib/**', name: 'source'
         }
-        /*
-        withCredentials([sshUserPrivateKey(credentialsId: 'github', keyFileVariable: 'PRIVATE_KEY')]) {
-            sh 'GIT_SSH_COMMAND="ssh -i $PRIVATE_KEY" git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
-        }
         */
+        withCredentials([sshUserPrivateKey(credentialsId: 'github', keyFileVariable: 'PRIVATE_KEY')]) {
+            sh 'mkdir -p .ssh && echo $PRIVATE_KEY > .ssh/id_ed25519'
+            //sh 'GIT_SSH_COMMAND="ssh -i $PRIVATE_KEY" git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
+            sh 'git clone git@github.com:ahermanto47/nodejs-express-exercise.git'
+        }
 
         stage('Build And Test') {
             unstash 'source'
