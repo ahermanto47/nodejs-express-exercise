@@ -7,12 +7,12 @@ node('slaveNode1'){
             stash excludes: 'target/**,lib/**', name: 'source'
         }
 
-        stage('Build And Test') {
+        stage('Install, EsLint, And Test') {
             unstash 'source'
             sh "ls"
             dir('employee-app') {
                 sh "pwd"
-                sh 'npm install && npm test'
+                sh 'npm install && npm run lint && npm test'
             }
         }
 
@@ -74,8 +74,8 @@ node('slaveNode1'){
         stage('Cleanup') {
             unstash 'source'
             sh "ls"
-            sh 'kubectl delete -f mongodb/mongodb.yaml'
             sh 'kubectl delete -f employee-app/Deployment.yaml'
+            sh 'kubectl delete -f mongodb/mongodb.yaml'
         }
 
     }

@@ -87,6 +87,7 @@ module.exports = function(dbo) {
     // the returning object is a promise
     const result = dbo.deleteEmployeeById(employeeId);
     result.then((resolve) => {
+      console.log(resolve);
       res.status(204).send();
     }).catch((error) => {
       res.status(404).send(error.message);

@@ -1,4 +1,9 @@
 const request = require('supertest');
+const { expect } = require('expect');
+const { jest } = require('@jest/globals');
+const { describe } = require('@jest/globals');
+const { test } = require('@jest/globals');
+const { beforeEach } = require('@jest/globals');
 
 // the code we are testing
 const makeApp = require('../server.js');
