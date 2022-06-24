@@ -7,7 +7,7 @@ const client = new MongoClient(connectionString, {
 
 let dbConnection;
 
-module.exports = commonMongoMod = {
+module.exports = {
     connectToServer: function (dbName, callback) {
         client.connect(function (err, db) {
           if (err || !db) {

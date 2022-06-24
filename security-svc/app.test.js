@@ -14,17 +14,19 @@ const app = makeApp(
 );
 
 describe("POST /users/signup", () => {
-
     describe("given a username, password, and email", () => {
         test("should pass user data to database createUser function", async () => {
             const body = { username: "user1", password: "password1", email: "test@dev.com"};
             await request(app).post("/users/signup").send(body);
             expect(createUser).toHaveBeenCalled();
             expect(createUser.mock.calls.length).toBe(1);
-            expect(createUser.mock.calls[0][0]).toBe(body.username);
-            expect(createUser.mock.calls[0][1]).toBe(body.password);
-            expect(createUser.mock.calls[0][2]).toBe(body.email);
-        })
-    })
+            expect(createUser.mock.calls[0][0]).toStrictEqual(body);
+        });
 
+        test("should get a jwt in the response", async () => {
+            const body = { username: "user1", password: "password1", email: "test@dev.com"};
+            const response = await request(app).post("/users/signup").send(body);
+            expect(response.body).toBeDefined();
+        });
+    });
 });

@@ -5,12 +5,12 @@
  */
 
 // get MongoDB driver connection
-var dbo = require('../db/conn');
-var makeRoutes = require('../routes/employee');
-var apiPath = './routes/employee.js';
+var dbo = require("../database/employees");
+var makeRoutes = require("../routes/employee");
+var apiPath = "./routes/employee.js";
 
-var makeApp = require('../server');
-var debug = require('debug')('employee-app:server');
+var makeApp = require("../app");
+var debug = require("debug")("employee-app:app");
 var http = require('http');
 
 /**

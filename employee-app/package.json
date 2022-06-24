@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/server",
     "test": "jest --coverage --runInBand --detectOpenHandles --forceExit --inject-globals false",
     "lint": "eslint \"**/*.js\""
   },
@@ -15,7 +15,10 @@
     "mongodb": "^3.6.6",
     "morgan": "~1.9.1",
     "swagger-jsdoc": "^6.2.1",
-    "swagger-ui-express": "^4.4.0"
+    "swagger-ui-express": "^4.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^5.21.3"
   },
   "devDependencies": {
     "eslint": "*",

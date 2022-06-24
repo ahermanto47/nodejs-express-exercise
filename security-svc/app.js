@@ -1,14 +1,14 @@
 const express = require('express');
 
-module.exports = function(database) {
+module.exports = function(database,jwt) {
 
     const app = express();
     app.use(express.json());
     app.post('/users/signup', async (req, res) => {
-        const { username, password, email } = req.body;
-        database.createUser(username, password, email);
-        res.json({});
-    })
+        const newUser = req.body;
+        database.createUser(newUser);
+        res.json(newUser);
+    });
 
     return app;
     

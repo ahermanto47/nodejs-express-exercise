@@ -1,4 +1,5 @@
 const express = require('express');
+const authJwt = require("../../common-jwt-mod");
 
 module.exports = function(dbo) {
 
@@ -9,15 +10,43 @@ module.exports = function(dbo) {
 
   /**
    * @openapi
+   * components:
+   *   securitySchemes:
+   *     bearerAuth:
+   *       type: http
+   *       scheme: bearer
+   *       bearerFormat: JWT
+   *   schemas:
+   *     employee:
+   *       title: Employee record
+   *       required:
+   *       - id
+   *       - name
+   *       type: object
+   *       properties:
+   *          id:
+   *             type: integer
+   *          name:
+   *             type: string
+   *   
+   */
+
+  /**
+   * @openapi
    * /Employees:
    *   get:
    *     description: Get all Employee
    *     responses: 
    *       200:
    *         description: Success 
-   *  
+   *       400:
+   *         description: Fail
+   *       401:
+   *         description: Unauthorized
+   *     security:
+   *       - bearerAuth: [ ]
    */
-   routes.route('/Employees').get(async function (req, res) {
+   routes.get('/Employees', [authJwt.verifyToken], async function (req, res, next) { 
 
       const employees = dbo.listAllEmployees();
       // the returning object is a promise
@@ -27,6 +56,7 @@ module.exports = function(dbo) {
         res.status(400).send(error.message);
       });  
 
+      next();
   });
 
   /**
@@ -39,17 +69,13 @@ module.exports = function(dbo) {
    *       content:
    *         application/json:
    *           schema:
-   *             employee:
-   *               type: object
-   *               properties:
-   *                 id:
-   *                   type: integer
-   *                 name:
-   *                   type: string
+   *             $ref: '#/components/schemas/employee'
    *     responses: 
    *       201:
-   *         description: Created 
-   *  
+   *         description: Created
+   *       404:
+   *         description: Not found
+   * 
    */
    routes.route('/Employees').post(async function (req, res) {
 
