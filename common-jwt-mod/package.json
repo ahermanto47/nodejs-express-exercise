@@ -1,0 +1,27 @@
+{
+  "name": "common-jwt-mod",
+  "version": "0.0.1",
+  "description": "Shared library to interact with JWT",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahermanto47/nodejs-express-exercise.git"
+  },
+  "keywords": [
+    "Common",
+    "JWT",
+    "Security"
+  ],
+  "author": "Andi Hermanto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahermanto47/nodejs-express-exercise/issues"
+  },
+  "homepage": "https://github.com/ahermanto47/nodejs-express-exercise#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
+  }
+}

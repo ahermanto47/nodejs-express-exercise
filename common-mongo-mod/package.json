@@ -1,0 +1,26 @@
+{
+  "name": "common-mongo-mod",
+  "version": "0.0.1",
+  "description": "Share library to interact with mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahermanto47/nodejs-express-exercise.git"
+  },
+  "keywords": [
+    "Common",
+    "Mongo"
+  ],
+  "author": "Andi Hermanto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahermanto47/nodejs-express-exercise/issues"
+  },
+  "homepage": "https://github.com/ahermanto47/nodejs-express-exercise#readme",
+  "dependencies": {
+    "mongodb": "^4.7.0"
+  }
+}
