@@ -10,6 +10,18 @@ module.exports = function(database,jwt) {
         res.json(newUser);
     });
 
+    app.post('/users/signin', async (req, res) => {
+        const user = req.body;
+        const validUser = await database.findUser(user);
+        if (validUser) {
+            const token = jwt.generateToken(validUser);
+            console.log(token);
+            res.status(200).send(token);
+            return; 
+        }
+        res.status(401).send("Unauthorized");
+    });
+
     return app;
     
 }
