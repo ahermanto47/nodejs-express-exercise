@@ -3,11 +3,29 @@ const secretToken = process.env.SECRET_TOKEN;
 
 module.exports = {
 
-    generateToken: function (user){
+    isAdmin: function(req, res, next) {
+      let roles = req.roles;
+      console.log(roles.length);
+      for (let i = 0; i < roles.length; i++) {
+        const role = roles[i];
+        console.log(role);
+        if (role == "ADMIN") {
+          next();
+          return;
+        }
+      }
+      res.status(403).send({
+        message: "Require Admin Role!"
+      });
+      return;
+    },
+
+    generateToken: function (user) {
+      // token with expiration time 24 hours
       let token = jwt.sign(
-        { id: user.id }, 
+        { id: user.id , roles: user.roles }, 
         secretToken, 
-        { expiresIn: 86400 }// 24 hours
+        { expiresIn: 86400 }
       );
       return token;
     },
@@ -31,6 +49,7 @@ module.exports = {
           });
         }
         req.userId = decoded.id;
+        req.roles = decoded.roles;
         next();
       });
     }

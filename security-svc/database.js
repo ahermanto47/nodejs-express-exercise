@@ -15,7 +15,8 @@ module.exports = {
         const newUser = {
             username: user.username,
             password: user.password,
-            email: user.email
+            email: user.email,
+            roles: user.roles
           };
       
           return dbConnection
@@ -28,7 +29,7 @@ module.exports = {
 
           return await dbConnection
           .collection('user')
-          .findOne(user);
+          .findOne({username: user.username, password: user.password});
 
     }
 }

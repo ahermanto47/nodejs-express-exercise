@@ -5,7 +5,7 @@
  */
 
 // get MongoDB driver connection
-var dbo = require("../database/employees");
+var dbo = require("../database");
 var makeRoutes = require("../routes/employee");
 var apiPath = "./routes/employee.js";
 
@@ -90,13 +90,7 @@ function onError(error) {
  */
 
 function onListening() {
-  // perform a database connection when the server starts
-	dbo.connectToServer(function (err) {
-	  if (err) {
-		console.error(err);
-		process.exit();
-	  }
-	});
+  dbo.init();
 	
   var addr = server.address();
   var bind = typeof addr === 'string'

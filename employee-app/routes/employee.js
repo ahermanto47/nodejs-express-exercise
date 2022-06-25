@@ -28,7 +28,6 @@ module.exports = function(dbo) {
    *             type: integer
    *          name:
    *             type: string
-   *   
    */
 
   /**
@@ -38,7 +37,15 @@ module.exports = function(dbo) {
    *     description: Get all Employee
    *     responses: 
    *       200:
-   *         description: Success 
+   *         description: Success
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               title: List of Employee records
+   *               items:
+   *                 $ref: '#/components/schemas/employee'
+   *            
    *       400:
    *         description: Fail
    *       401:
@@ -56,7 +63,6 @@ module.exports = function(dbo) {
         res.status(400).send(error.message);
       });  
 
-      next();
   });
 
   /**
@@ -75,16 +81,19 @@ module.exports = function(dbo) {
    *         description: Created
    *       404:
    *         description: Not found
+   *     security:
+   *       - bearerAuth: [ ]
    * 
    */
-   routes.route('/Employees').post(async function (req, res) {
+   routes.post('/Employees', [authJwt.verifyToken, authJwt.isAdmin], async function (req, res) {
 
     const employee = req.body;
     // the returning object is a promise
     const result = dbo.addOneEmployee(employee);
     result.then((resolve) => {
-      const resultEmployee = resolve.ops[0];
-      res.status(201).json(resultEmployee);
+      // const resultEmployee = resolve.ops[0];
+      // res.status(201).json(resultEmployee);
+      res.status(201).json(resolve);
     }).catch((error) => {
       res.status(404).send(error.message);
     });
@@ -105,9 +114,11 @@ module.exports = function(dbo) {
    *     responses: 
    *       204:
    *         description: Deleted 
+   *     security:
+   *       - bearerAuth: [ ]
    *  
    */
-   routes.route('/Employees/delete/:id').delete((req, res) => {
+   routes.delete('/Employees/delete/:id',  [authJwt.verifyToken, authJwt.isAdmin], (req, res) => {
 
     const employeeId = { id : parseInt(req.params.id) };
     // the returning object is a promise
