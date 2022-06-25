@@ -20,12 +20,13 @@ module.exports = {
       return;
     },
 
-    generateToken: function (user) {
+    generateToken: function (user, callback) {
       // token with expiration time 24 hours
       let token = jwt.sign(
         { id: user.id , roles: user.roles }, 
         secretToken, 
-        { expiresIn: 86400 }
+        { expiresIn: 86400 },
+        callback
       );
       return token;
     },

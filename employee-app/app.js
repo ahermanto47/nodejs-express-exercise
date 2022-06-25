@@ -28,6 +28,11 @@ module.exports = function(routes, apiPath) {
 	
 	const swaggerDocs = swaggerJSDoc(options);
 	app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(swaggerDocs));
+
+	app.get('/api-docs.json', (req, res) => {
+		res.setHeader('Content-Type', 'application/json');
+		res.send(swaggerDocs);
+	});
 	
 	return app;
 }

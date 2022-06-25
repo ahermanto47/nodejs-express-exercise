@@ -4,21 +4,17 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/server",
-    "test": "jest --coverage --runInBand --detectOpenHandles --forceExit --inject-globals false",
+    "test": "jest --coverage --runInBand --detectOpenHandles --inject-globals false",
     "lint": "eslint \"**/*.js\""
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "mongodb": "^3.6.6",
+    "express": "~4.17.3",
     "morgan": "~1.9.1",
     "swagger-jsdoc": "^6.2.1",
-    "swagger-ui-express": "^4.4.0",
-    "jsonwebtoken": "^8.5.1",
-    "mysql2": "^2.1.0",
-    "sequelize": "^5.21.3"
+    "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
     "eslint": "*",

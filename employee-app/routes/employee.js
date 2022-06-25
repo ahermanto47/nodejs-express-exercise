@@ -1,7 +1,6 @@
 const express = require('express');
-const authJwt = require("../../common-jwt-mod");
 
-module.exports = function(dbo) {
+module.exports = function(database,jwt) {
 
   // recordRoutes is an instance of the express router.
   // We use it to define our routes.
@@ -53,9 +52,9 @@ module.exports = function(dbo) {
    *     security:
    *       - bearerAuth: [ ]
    */
-   routes.get('/Employees', [authJwt.verifyToken], async function (req, res, next) { 
+   routes.get('/Employees', [jwt.verifyToken], async function (req, res, next) { 
 
-      const employees = dbo.listAllEmployees();
+      const employees = database.listAllEmployees();
       // the returning object is a promise
       employees.then((resolve) => {
         res.json(resolve);
@@ -85,11 +84,11 @@ module.exports = function(dbo) {
    *       - bearerAuth: [ ]
    * 
    */
-   routes.post('/Employees', [authJwt.verifyToken, authJwt.isAdmin], async function (req, res) {
+   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin], async function (req, res) {
 
     const employee = req.body;
     // the returning object is a promise
-    const result = dbo.addOneEmployee(employee);
+    const result = database.addOneEmployee(employee);
     result.then((resolve) => {
       // const resultEmployee = resolve.ops[0];
       // res.status(201).json(resultEmployee);
@@ -118,11 +117,11 @@ module.exports = function(dbo) {
    *       - bearerAuth: [ ]
    *  
    */
-   routes.delete('/Employees/delete/:id',  [authJwt.verifyToken, authJwt.isAdmin], (req, res) => {
+   routes.delete('/Employees/delete/:id',  [jwt.verifyToken, jwt.isAdmin], (req, res) => {
 
     const employeeId = { id : parseInt(req.params.id) };
     // the returning object is a promise
-    const result = dbo.deleteEmployeeById(employeeId);
+    const result = database.deleteEmployeeById(employeeId);
     result.then((resolve) => {
       console.log(resolve);
       res.status(204).send();

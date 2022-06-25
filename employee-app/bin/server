@@ -3,9 +3,10 @@
 /**
  * Module dependencies.
  */
-
+//get JWT module
+var jwt = require("../../common-jwt-mod")
 // get MongoDB driver connection
-var dbo = require("../database");
+var database = require("../database");
 var makeRoutes = require("../routes/employee");
 var apiPath = "./routes/employee.js";
 
@@ -18,7 +19,7 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '5000');
-var routes = makeRoutes(dbo);
+var routes = makeRoutes(database,jwt);
 var app = makeApp(routes,apiPath);
 
 app.set('port', port);
@@ -90,7 +91,7 @@ function onError(error) {
  */
 
 function onListening() {
-  dbo.init();
+  database.init();
 	
   var addr = server.address();
   var bind = typeof addr === 'string'

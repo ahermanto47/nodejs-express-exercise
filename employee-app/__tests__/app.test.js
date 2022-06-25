@@ -6,27 +6,35 @@ const { test } = require('@jest/globals');
 const { beforeEach } = require('@jest/globals');
 
 // the code we are testing
-const makeApp = require('../server.js');
+const makeApp = require('../app.js');
 
 // dependent objects required
 const makeRoutes = require('../routes/employee');
 const apiPath = './routes/employee.js';
 
 // mock dbo functions
-const connectToServer = jest.fn();
-const getDb = jest.fn();
 const listAllEmployees = jest.fn();
 const addOneEmployee = jest.fn();
 const deleteEmployeeById = jest.fn();
 
+// mock jwt functions
+const isAdmin = jest.fn();
+const generateToken = jest.fn();
+const verifyToken = jest.fn();
+
 // create our app
-const routes = makeRoutes({
-    connectToServer,
-    getDb,
-    listAllEmployees,
-    addOneEmployee,
-    deleteEmployeeById
-});
+const routes = makeRoutes(
+    {
+        listAllEmployees,
+        addOneEmployee,
+        deleteEmployeeById
+    },
+    {
+        isAdmin,
+        generateToken,
+        verifyToken
+    }
+);
 
 const app = makeApp(routes,apiPath);
 
@@ -36,6 +44,9 @@ describe("GET /Employees", () => {
         
         beforeEach(() => {
             listAllEmployees.mockReset();
+            verifyToken.mockImplementation((req, res, next) => {
+                next();
+            });
         });
 
         test('GET /Employees should responds with 200 code', async () => {
@@ -70,6 +81,15 @@ describe("POST /Employees", () => {
         
         beforeEach(() => {
             addOneEmployee.mockReset();
+            verifyToken.mockImplementation((req, res, next) => {
+                req.userId = "test";
+                req.roles = ["test"]
+                next();
+            });
+            isAdmin.mockImplementation((req, res, next) => {
+                next();
+                return;
+            });
         });
 
         test('POST /Employees should responds with 201 code', async () => {
@@ -80,7 +100,8 @@ describe("POST /Employees", () => {
             ];
 
             for (const body of bodyData) {
-                addOneEmployee.mockResolvedValue({ ops: [{ id: body.id }] });
+                //addOneEmployee.mockResolvedValue({ ops: [{ id: body.id }] });
+                addOneEmployee.mockResolvedValue({id: body.id });
                 const response = await request(app).post('/Employees').send(body);
                 expect(response.statusCode).toBe(201);
                 expect(response.body.id).toBe(body.id);
