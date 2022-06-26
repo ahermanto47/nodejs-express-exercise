@@ -11,7 +11,7 @@ export SECRET_TOKEN=dGhpcy1pcy1teS1zZWNyZXQta2V5Cg==
 ```
 
 ```
-export ATLAS_URI=mongodb://adminuser:password123@192.168.39.207:32000
+export ATLAS_URI=mongodb://<username>:<password>@192.168.39.207:32000
 ```
 
 ## Signup

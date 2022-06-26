@@ -107,7 +107,7 @@ npm start
 
 ## Test and coverage
 
-> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by following along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from __test__/server.test.js, where we test the GET /Employees operation;
+> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by following along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from `__test__/server.test.js`, where we test the GET /Employees operation;
 
 ```
 ...
@@ -186,3 +186,6 @@ curl $(minikube service employee-svc --url)/Employees | jq
 
 <p align="center"><img src="images/AnimatedSwagger.gif" alt="Test Swagger UI Image"/></p>
 
+## Expose api in json format
+
+> API spec in json format can be accessed by opening  **http://localhost:5000/api-docs.json**
