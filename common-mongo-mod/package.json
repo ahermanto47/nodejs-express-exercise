@@ -4,7 +4,8 @@
   "description": "Share library to interact with mongodb",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage --runInBand --detectOpenHandles --inject-globals false ",
+    "lint": "eslint \"**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,10 @@
   "homepage": "https://github.com/ahermanto47/nodejs-express-exercise#readme",
   "dependencies": {
     "mongodb": "^4.7.0"
+  },
+  "devDependencies": {
+    "eslint": "*",
+    "jest": "^28.1.1",
+    "supertest": "^6.2.3"
   }
 }

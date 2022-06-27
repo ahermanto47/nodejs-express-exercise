@@ -7,6 +7,7 @@ const routes = makeRoute(database,jwt);
 const app = makeApp(routes);
 
 app.listen(4000, () => {
-    database.init();
+    const connectionString = process.env.ATLAS_URI;
+    database.init(connectionString);
     console.log("listening on port 4000");
 });

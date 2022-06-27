@@ -4,9 +4,12 @@ let dbConnection;
 
 module.exports = {
 
-  init: function() {
-    mongoCommon.connectToServer("employees",function(){
-        dbConnection = mongoCommon.getDb();
+  init: function(connectionString) {
+    const db = mongoCommon.connect(connectionString);
+    db.then((resolvedClient) => {
+      dbConnection = resolvedClient.db("employees");
+    }).catch((error) => {
+      console.log(error.message);
     });
   },
 
