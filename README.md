@@ -1,8 +1,29 @@
 # nodejs-express-exercise
 
-> Run a nodejs app using express library, openapi (with **swagger-jsdoc**), jsonwebtoken, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). In this setup, **swagger-jsdoc** allows developers to expose an operation via **@openapi** annotation, for example see file `employee-app/routes/employee.js`;
+> Run a nodejs app using express library, openapi (with **swagger-jsdoc**), jsonwebtoken, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). In this setup, **swagger-jsdoc** allows developers to document schemas and operations via **@openapi** annotation, for example see file `employee-app/routes/employee.js`;
 
 ```
+  /**
+   * @openapi
+   * components:
+   *   securitySchemes:
+   *     bearerAuth:
+   *       type: http
+   *       scheme: bearer
+   *       bearerFormat: JWT
+   *   schemas:
+   *     employee:
+   *       title: Employee record
+   *       required:
+   *       - id
+   *       - name
+   *       type: object
+   *       properties:
+   *          id:
+   *             type: integer
+   *          name:
+   *             type: string
+   */
 
   /**
    * @openapi
@@ -11,8 +32,21 @@
    *     description: Get all Employee
    *     responses: 
    *       200:
-   *         description: Success 
-   *  
+   *         description: Success
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               title: List of Employee records
+   *               items:
+   *                 $ref: '#/components/schemas/employee'
+   *            
+   *       400:
+   *         description: Fail
+   *       401:
+   *         description: Unauthorized
+   *     security:
+   *       - bearerAuth: [ ]
    */
    routes.get('/Employees', [jwt.verifyToken], async function (req, res, next) { 
 
@@ -25,7 +59,6 @@
       });  
 
   });
-
 ```
 
 > As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. This particular call we secure the this route by using `[jwt.verifyToken]` that will check if the request has valid authorization token. See snippet from `common-jwt-mod/index.js` below;
