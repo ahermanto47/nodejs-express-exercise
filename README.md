@@ -1,6 +1,6 @@
 # nodejs-express-exercise
 
-> Run a nodejs app using express library, openapi (with **swagger-jsdoc**), and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). In this setup, **swagger-jsdoc** allows developers to expose an operation via **@openapi** annotation, for example see file routes/employee.js;
+> Run a nodejs app using express library, openapi (with **swagger-jsdoc**), jsonwebtoken, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). In this setup, **swagger-jsdoc** allows developers to expose an operation via **@openapi** annotation, for example see file `employee-app/routes/employee.js`;
 
 ```
 
@@ -14,9 +14,9 @@
    *         description: Success 
    *  
    */
-   routes.route('/Employees').get(async function (req, res) {
+   routes.get('/Employees', [jwt.verifyToken], async function (req, res, next) { 
 
-      const employees = dbo.listAllEmployees();
+      const employees = database.listAllEmployees();
       // the returning object is a promise
       employees.then((resolve) => {
         res.json(resolve);
@@ -28,7 +28,36 @@
 
 ```
 
-> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. So when user perform a get to http://localhost:5000/Employees, the system will call **dbo.listAppEmployees()** function, which fetch data from a mongo db database. See below code snippets from db/conn.js;
+> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. This particular call we secure the this route by using `[jwt.verifyToken]` that will check if the request has valid authorization token. See snippet from `common-jwt-mod/index.js` below;
+
+```
+    verifyToken: function (req, res, next) {
+      let token = req.get("Authorization");
+      if (token) {
+        token = token.substring(7);
+      }
+          
+      if (!token) {
+        return res.status(401).send({
+          message: "Unauthorized!"
+        });
+      }
+    
+      jwt.verify(token, secretToken, (err, decoded) => {
+        if (err) {
+          return res.status(401).send({
+            message: "Unauthorized!"
+          });
+        }
+        req.userId = decoded.id;
+        req.roles = decoded.roles;
+        next();
+      });
+    }
+
+```
+
+> Example of mongo client code, when user perform a get to http://localhost:5000/Employees, the system will call **database.listAppEmployees()** function, which fetch data from a mongo db database. See below code snippets from `employee-app/database.js`;
 
 ```
   listAllEmployees: function() {
@@ -50,17 +79,21 @@
 kubectl apply -f mongodb/mongodb.yaml
 ```
 
-### Note when running locally
+### Notes to run this project locally
 
-> During coding, to run some integration tests, we need to set the mongo connection string which is set as **ATLAS_URI** environment variable. See db/conn.js;
+> During coding, to run some integration tests, we need to set the mongo connection string which is set as **ATLAS_URI** environment variable. See `employee-app/bin/server`;
 
 ```
-  const { MongoClient } = require('mongodb');
+function onListening() {
   const connectionString = process.env.ATLAS_URI;
-  const client = new MongoClient(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  });
+  database.init(connectionString);
+
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
 ```
 
 > On windows set the ATLAS_URI
@@ -75,7 +108,29 @@ set ATLAS_URI=mongodb://<username>:<password>@192.168.1.240:32000
 export ATLAS_URI=mongodb://<username>:<password>@192.168.1.240:32000
 ```
 
-## Start an express project
+> In addition, since we secured the api using JWT, below steps are also needed to setup JWT 
+
+```
+export SECRET_TOKEN=dGhpcy1pcy1teS1zZWNyZXQta2V5Cg==
+```
+
+> Then you start two projects, on one terminal start employee-app and on another one start security-svc
+
+```
+npm start
+```
+
+> Withouth a valid Json Web Token, all requests will get `401 - Unauthorized!`. To get an authorization, you must create a user and sign in with that user. The **http://localhost:4000/users/signin** endpoint will responds for a valid request with a token that we can use.
+
+```
+curl -X POST -H 'Content-type: application/json' -d '{"username": "bob", "password": "secret123", "email":"bob@test.com", "roles":["USER"]}' http://localhost:4000/users/signup | jq
+```
+
+```
+curl -X POST -H 'Content-type: application/json' -d '{"username": "bob", "password": "secret123"}' http://localhost:4000/users/signin
+```
+
+## Start an express project from scratch
 
 > This app originally was created using express-generator. If you want to start from scratch, here are the steps  
 
@@ -107,7 +162,7 @@ npm start
 
 ## Test and coverage
 
-> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by following along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from `__test__/server.test.js`, where we test the GET /Employees operation;
+> I managed to code some automated tests in this repo using Jest and Supertest frameworks. I coded these tests by following along these videos - [Unit Testing in Javascript|Writing Automated Tests With Jest](https://www.youtube.com/watch?v=hz0_q1MJa2k&list=PL0X6fGhFFNTd5_wsAMasuLarx_VSkqYYX). For example, see below snippet from `employee-app/__test__/app.test.js`, where we test the GET /Employees operation;
 
 ```
 ...

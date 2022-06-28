@@ -8,8 +8,10 @@ module.exports = {
         const db = mongoCommon.connect(connectionString);
         db.then((resolvedClient) => {
           dbConnection = resolvedClient.db("users");
+          console.log("Successfully connected to MongoDB.");
         }).catch((error) => {
           console.log(error.message);
+          process.exit(1);
         });
     },
 

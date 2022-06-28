@@ -8,7 +8,6 @@ module.exports = {
           useNewUrlParser: true,
           useUnifiedTopology: true,
         });
-        console.log("Successfully connected to MongoDB.");
         return dbClient;
       }      
 }
