@@ -23,7 +23,7 @@ module.exports = {
           };
       
           return dbConnection
-            .collection('user')
+            .collection("user")
             .insertOne(newUser);
       
     },
@@ -31,7 +31,7 @@ module.exports = {
     findUser: async function(user) {
 
           return await dbConnection
-          .collection('user')
+          .collection("user")
           .findOne({username: user.username, password: user.password});
 
     }

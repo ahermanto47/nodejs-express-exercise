@@ -3,7 +3,6 @@ const mongoCommon = require("../common-mongo-mod");
 let dbConnection;
 
 module.exports = {
-
   init: function(connectionString) {
     const db = mongoCommon.connect(connectionString);
     db.then((resolvedClient) => {
@@ -13,11 +12,10 @@ module.exports = {
     });
   },
 
-
   listAllEmployees: function() {
     
     return dbConnection
-      .collection('employee')
+      .collection("employee")
       .find({})
       .limit(50)
       .toArray();
@@ -32,7 +30,7 @@ module.exports = {
     };
 
     return dbConnection
-      .collection('employee')
+      .collection("employee")
       .insertOne(newEmployee);
 
   },
@@ -40,8 +38,8 @@ module.exports = {
   deleteEmployeeById: function(employeeId) {
 
     return dbConnection
-      .collection('employee')
+      .collection("employee")
       .deleteOne(employeeId);
 
-    },
+  }
 };
