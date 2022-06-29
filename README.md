@@ -61,7 +61,7 @@
   });
 ```
 
-> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. This particular call we secure the this route by using `[jwt.verifyToken]` that will check if the request has valid authorization token. See snippet from `common-jwt-mod/index.js` below;
+> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. This particular call we secure the route by using `[jwt.verifyToken]` code. This particular code will check if the request has valid authorization token. See snippet from `common-jwt-mod/index.js` below;
 
 ```
     verifyToken: function (req, res, next) {
@@ -247,25 +247,25 @@ kubectl apply -f Deployment
 ### 1. List all employees
 
 ```
-curl $(minikube service employee-svc --url)/Employees | jq
+curl -H 'Authorization: Bearer <TOKEN>' $(minikube service employee-svc --url)/Employees | jq
 ```
 
 ### 2. Add one employee, Robert
 ```
-curl -X POST -H 'Content-type: application/json' -d '{"id": 3,"name": "Robert"}' $(minikube service employee-svc --url)/Employees | jq
+curl -X POST -H 'Content-type: application/json' -H 'Authorization: Bearer <TOKEN>' -d '{"id": 3,"name": "Robert"}' $(minikube service employee-svc --url)/Employees | jq
 ```
 ### 3. Verify
 ```
-curl $(minikube service employee-svc --url)/Employees | jq
+curl -H 'Authorization: Bearer <TOKEN>' $(minikube service employee-svc --url)/Employees | jq
 ```
  
 ### 4. Delete one employee, Robert
 ```
-curl -X DELETE $(minikube service employee-svc --url)/Employees/delete/3 | jq
+curl -X DELETE  -H 'Authorization: Bearer <TOKEN>' $(minikube service employee-svc --url)/Employees/delete/3 | jq
 ```
 ### 5. Verify
 ```
-curl $(minikube service employee-svc --url)/Employees | jq
+curl -H 'Authorization: Bearer <TOKEN>' $(minikube service employee-svc --url)/Employees | jq
 ```
  
 ## Or Test with the swagger ui
