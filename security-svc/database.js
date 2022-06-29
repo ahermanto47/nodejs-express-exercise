@@ -11,7 +11,9 @@ module.exports = {
           console.log("Successfully connected to MongoDB.");
         }).catch((error) => {
           console.log(error.message);
-          process.exit(1);
+          if (process.env.JEST_WORKER_ID === undefined) {
+            process.exit(1);
+          }
         });
     },
 
