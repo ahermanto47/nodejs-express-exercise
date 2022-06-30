@@ -24,17 +24,17 @@ module.exports = {
             password: user.password,
             email: user.email,
             roles: user.roles
-          };
+        };
       
-          return dbConnection
-            .collection("user")
-            .insertOne(newUser);
+        return dbConnection
+          .collection("user")
+          .insertOne(newUser);
       
     },
 
     findUser: async function(user) {
 
-          return await dbConnection
+        return await dbConnection
           .collection("user")
           .findOne({username: user.username, password: user.password});
 

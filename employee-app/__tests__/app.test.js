@@ -22,6 +22,10 @@ const isAdmin = jest.fn();
 const generateToken = jest.fn();
 const verifyToken = jest.fn();
 
+// mock validator functions
+const isValidEmployee = jest.fn();
+
+
 // create our app
 const routes = makeRoutes(
     {
@@ -33,6 +37,9 @@ const routes = makeRoutes(
         isAdmin,
         generateToken,
         verifyToken
+    },
+    {
+        isValidEmployee
     }
 );
 
@@ -87,6 +94,10 @@ describe("POST /Employees", () => {
                 next();
             });
             isAdmin.mockImplementation((req, res, next) => {
+                next();
+                return;
+            });
+            isValidEmployee.mockImplementation((req, res, next) => {
                 next();
                 return;
             });

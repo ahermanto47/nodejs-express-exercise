@@ -7,6 +7,7 @@
 var jwt = require("../../common-jwt-mod")
 // get MongoDB driver connection
 var database = require("../database");
+var validator = require("../employeeValidator");
 var makeRoutes = require("../routes/employee");
 var apiPath = "./routes/employee.js";
 
@@ -19,7 +20,7 @@ var http = require('http');
  */
 
 var port = normalizePort(process.env.PORT || '5000');
-var routes = makeRoutes(database,jwt);
+var routes = makeRoutes(database,jwt,validator);
 var app = makeApp(routes,apiPath);
 
 app.set('port', port);

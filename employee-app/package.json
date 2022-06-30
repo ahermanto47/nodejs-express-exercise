@@ -12,7 +12,9 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.17.3",
+    "isomorphic-fetch": "^3.0.0",
     "morgan": "~1.9.1",
+    "redis": "^4.1.0",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0"
   },

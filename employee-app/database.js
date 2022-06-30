@@ -31,6 +31,7 @@ module.exports = {
     const newEmployee = {
       id: employee.id,
       name: employee.name,
+      departmentCode: employee.departmentCode
     };
 
     return dbConnection

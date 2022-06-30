@@ -1,6 +1,6 @@
 const express = require('express');
 
-module.exports = function(database,jwt) {
+module.exports = function(database,jwt,validator) {
 
   // recordRoutes is an instance of the express router.
   // We use it to define our routes.
@@ -21,12 +21,15 @@ module.exports = function(database,jwt) {
    *       required:
    *       - id
    *       - name
+   *       - departmentCode
    *       type: object
    *       properties:
    *          id:
-   *             type: integer
+   *            type: integer
    *          name:
-   *             type: string
+   *            type: string
+   *          departmentCode:
+   *            type: string
    */
 
   /**
@@ -84,7 +87,7 @@ module.exports = function(database,jwt) {
    *       - bearerAuth: [ ]
    * 
    */
-   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin], async function (req, res) {
+   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin, validator.isValidEmployee], async function (req, res) {
 
     const employee = req.body;
     // the returning object is a promise

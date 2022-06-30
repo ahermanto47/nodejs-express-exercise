@@ -1,0 +1,29 @@
+{
+  "name": "reference-svc",
+  "version": "0.0.1",
+  "description": "Fake reference api for employee",
+  "main": "index.js",
+  "scripts": {
+    "server": "json-server --watch db.json --port 7000",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahermanto47/nodejs-express-exercise.git"
+  },
+  "keywords": [
+    "Json",
+    "Server",
+    "Mock",
+    "API"
+  ],
+  "author": "Andi Hermanto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahermanto47/nodejs-express-exercise/issues"
+  },
+  "homepage": "https://github.com/ahermanto47/nodejs-express-exercise#readme",
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
+}

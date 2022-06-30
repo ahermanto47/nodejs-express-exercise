@@ -1,0 +1,7 @@
+{
+  "departments": [
+    {"code": "HR", "description": "Human Resource" },
+    {"code": "FA", "description": "Facility" },
+    {"code": "IT", "description": "Information Technology" }
+]
+}
