@@ -65,7 +65,7 @@
   });
 ```
 
-> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. This particular call we secure the route by using `[jwt.verifyToken]` code. This particular code will check if the request has valid authorization token. See snippet from `common-jwt-mod/index.js` below;
+> As shown above, the annotation represents one operation for one path in OpeAPI V3 schema, and the function underneath that annotation is what got assigned to that operation. This particular call we secure the route by using `[jwt.verifyToken]` middleware code. This particular code will check if the request has valid authorization token. See snippet from `common-jwt-mod/index.js` below;
 
 ```
     verifyToken: function (req, res, next) {
@@ -106,6 +106,54 @@
       .toArray();
       
   },
+```
+
+> Some operation that requires data from an external api will be cached in redis. For example, when when handing post, we add another middleware code `validator.isValidEmployee` below in `employee-app\routes\employee.js`;
+
+```
+   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin, validator.isValidEmployee], async function (req, res) {
+```
+
+> In that middleware code, see `employee-app\employeeValidator.js`, we check the cache and fetch the external api if necessary
+
+```
+    isValidEmployee: async function(req, res, next) {
+        const employee = req.body;
+        let departments;
+
+        if (!clientConnected) {
+            await client.connect();
+            clientConnected = true;
+        }
+ 
+        departments = await client.get('departments');
+ 
+        if (departments) {
+            departments = JSON.parse(departments);
+            console.log("from cached data", departments);
+        } else {
+            const resp = await fetch(sourceURL)
+               .then((response) => response.json());
+            await client.set('departments', JSON.stringify(resp));
+            departments = resp;
+            console.log("from source data", departments);
+        }
+        //await client.disconnect();
+
+        if (departments) {
+            for (department of departments){
+                if(department.code == employee.departmentCode) {
+                    next();
+                    return;
+                }
+            }
+        }
+
+        return res.status(404).send({
+            message: "Not found!"
+        });
+    }
+
 ```
 
 ## Setup mongo in minikube
