@@ -1,6 +1,10 @@
 # nodejs-express-exercise
 
-> Run a nodejs app using express library, openapi (with **swagger-jsdoc**), jsonwebtoken, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). In this setup, **swagger-jsdoc** allows developers to document schemas and operations via **@openapi** annotation, for example see file `employee-app/routes/employee.js`;
+> Run a nodejs api using express library, openapi (with **swagger-jsdoc**), jsonwebtoken, redis, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). See below for highlevel collaboration diagram;
+
+<p align="center"><img src="images/Components-Collaborations.PNG" alt="Components Collaborations Image"/></p>
+
+> In this setup, **swagger-jsdoc** allows developers to document schemas and operations via **@openapi** annotation, for example see file `employee-app/routes/employee.js`;
 
 ```
   /**
