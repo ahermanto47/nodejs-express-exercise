@@ -171,6 +171,14 @@ kubectl apply -f mongodb/mongodb.yaml
 kubectl apply -f redis/redis.yaml
 ```
 
+> Sometimes you need to clear the cache, like this
+
+```
+kubectl exec -it redis-6984788764-28rtl -- redis-cli
+```
+
+> Then enter `flushall`
+
 ### Notes to run this project locally
 
 > During coding, to run some integration tests, we need to set the mongo connection string which is set as **ATLAS_URI** environment variable. See `employee-app/bin/server`;
