@@ -1,6 +1,6 @@
 # nodejs-express-exercise
 
-> Run a nodejs api using express library, openapi (with **swagger-jsdoc**), jsonwebtoken, redis, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). See below for highlevel collaboration diagram;
+> Run an employee api using nodejs, express, openapi (with **swagger-jsdoc**), jsonwebtoken, redis, and mongodb in minikube. This could be part of **MERN** stack (Mongo, Express, React, and Nodejs). See below for highlevel collaboration diagram;
 
 <p align="center"><img src="images/Components-Collaborations.PNG" alt="Components Collaborations Image"/></p>
 
@@ -114,6 +114,13 @@
 
 ```
 kubectl apply -f mongodb/mongodb.yaml
+```
+## Setup redis in minikube
+
+> This app also requires a redis instance, here we setup one in minikube
+
+```
+kubectl apply -f redis/redis.yaml
 ```
 
 ### Notes to run this project locally
