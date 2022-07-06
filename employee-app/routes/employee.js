@@ -87,7 +87,8 @@ module.exports = function(database,jwt,validator) {
    *       - bearerAuth: [ ]
    * 
    */
-   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin, validator.isValidEmployee], async function (req, res) {
+//   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin, validator.isValidEmployee], async function (req, res) {
+   routes.post('/Employees', [jwt.verifyToken, jwt.isAdmin], async function (req, res) {
 
     const employee = req.body;
     // the returning object is a promise
@@ -95,7 +96,13 @@ module.exports = function(database,jwt,validator) {
     result.then((resolve) => {
       // const resultEmployee = resolve.ops[0];
       // res.status(201).json(resultEmployee);
-      res.status(201).json(resolve);
+      console.log(resolve.insertedId);
+      if (resolve.insertedId) {
+        res.status(201).json(employee);
+      } else {
+        console.log("insert failed")
+        res.status(404).json({});
+      }
     }).catch((error) => {
       res.status(404).send(error.message);
     });
@@ -134,7 +141,5 @@ module.exports = function(database,jwt,validator) {
     
   });
 
-
   return routes;
-
 }

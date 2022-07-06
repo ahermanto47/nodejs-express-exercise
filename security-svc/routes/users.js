@@ -22,7 +22,7 @@ module.exports = function(database,jwt) {
                 console.log(validUser);
                 const token = jwt.generateToken(validUser);
                 console.log(token);
-                res.status(200).send(token);
+                res.status(200).json(token);
             } else {
                 res.status(401).send("Unauthorized");
             }
